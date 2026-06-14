@@ -7,12 +7,8 @@
 -- DATABASE : MySQL
 -- ============================================================
 
-CREATE DATABASE IF NOT EXISTS ec_chenni;
+CREATE DATABASE ec_chenni;
 USE ec_chenni;
-
--- ============================================================
--- SECTION 1: TABLE CREATION
--- ============================================================
 
 CREATE TABLE Customers (
     customer_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -53,10 +49,6 @@ CREATE TABLE Audit_Log (
     new_value   TEXT,
     changed_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
--- ============================================================
--- SECTION 2: SAMPLE DATA
--- ============================================================
 
 INSERT INTO Customers (full_name, email, phone, city) VALUES
 ('Elan B',     'elan@gmail.com',    '9876543210', 'Chennai'),
@@ -106,11 +98,7 @@ INSERT INTO Transactions (account_id, txn_type, amount, remarks) VALUES
 (3,  'Deposit',    5000.00, 'Cash deposit'),
 (4,  'Transfer',   2000.00, 'UPI transfer');
 
--- ============================================================
--- SECTION 3: TRIGGERS
--- ============================================================
 
--- TRIGGER 1: Log Customer INSERT
 DELIMITER $$
 CREATE TRIGGER trg_customer_insert
 AFTER INSERT ON Customers
@@ -122,7 +110,6 @@ BEGIN
 END$$
 DELIMITER ;
 
--- TRIGGER 2: Log Customer UPDATE
 DELIMITER $$
 CREATE TRIGGER trg_customer_update
 AFTER UPDATE ON Customers
@@ -135,7 +122,6 @@ BEGIN
 END$$
 DELIMITER ;
 
--- TRIGGER 3: Log Customer DELETE
 DELIMITER $$
 CREATE TRIGGER trg_customer_delete
 BEFORE DELETE ON Customers
@@ -147,7 +133,6 @@ BEGIN
 END$$
 DELIMITER ;
 
--- TRIGGER 4: Log Account Balance UPDATE
 DELIMITER $$
 CREATE TRIGGER trg_account_update
 AFTER UPDATE ON Accounts
@@ -160,7 +145,6 @@ BEGIN
 END$$
 DELIMITER ;
 
--- TRIGGER 5: Log Transaction INSERT
 DELIMITER $$
 CREATE TRIGGER trg_transaction_insert
 AFTER INSERT ON Transactions
@@ -172,11 +156,6 @@ BEGIN
 END$$
 DELIMITER ;
 
--- ============================================================
--- SECTION 4: STORED PROCEDURES
--- ============================================================
-
--- PROCEDURE 1: Full audit report for any table
 DELIMITER $$
 CREATE PROCEDURE sp_audit_report(IN tbl_name VARCHAR(50))
 BEGIN
@@ -188,7 +167,6 @@ BEGIN
 END$$
 DELIMITER ;
 
--- PROCEDURE 2: Audit logs between date range
 DELIMITER $$
 CREATE PROCEDURE sp_audit_by_date(IN from_date DATE, IN to_date DATE)
 BEGIN
@@ -198,7 +176,6 @@ BEGIN
 END$$
 DELIMITER ;
 
--- PROCEDURE 3: Summary of all actions by table
 DELIMITER $$
 CREATE PROCEDURE sp_action_summary()
 BEGIN
@@ -210,9 +187,6 @@ BEGIN
 END$$
 DELIMITER ;
 
--- ============================================================
--- SECTION 5: BASIC LEVEL QUERIES (20)
--- ============================================================
 
 -- 1. Retrieve all customers
 SELECT * FROM Customers;
@@ -401,6 +375,4 @@ CALL sp_audit_report('Customers');
 CALL sp_audit_by_date('2024-01-01', '2026-12-31');
 CALL sp_action_summary();
 
--- ============================================================
 -- END OF PROJECT
--- ============================================================
